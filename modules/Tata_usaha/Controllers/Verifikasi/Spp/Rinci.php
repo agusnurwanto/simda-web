@@ -1,0 +1,470 @@
+<?php namespace Modules\Tata_usaha\Controllers\Verifikasi\Spp;
+/**
+ * Tata Usaha > Verifikasi > SPP > Rinci
+ *
+ * @since			version 1.0.0
+ * @author			GeekTech Karya Indonesia, Ltd.
+ * @website			www.geektech.id
+ */
+class Rinci extends \Aksara\Laboratory\Core
+{
+	private $_table									= 'ta_spp_rinc';
+	
+	public function __construct()
+	{
+		parent::__construct();
+		
+		$this->set_permission();
+		$this->set_theme('backend');
+		
+		// must be called after set_theme()
+		$this->database_config('default');
+	}
+	
+	public function index()
+	{
+		if(service('request')->getPost('token'))
+		{
+			if(service('request')->getPost('kegiatan') != 'all')
+			{
+				list($r1, $r2, $r3, $r4, $r5, $r6, $r7, $r8, $r9, $r10, $r11, $r12)	= array_pad(explode('.', service('request')->getPost('kegiatan')), 5, 0);
+
+				$this->set_default
+				(
+					array
+					(
+						'kd_urusan'					=> $r1,
+						'kd_bidang'					=> $r2,
+						'kd_unit'					=> $r3,
+						'kd_sub'					=> $r4,
+						'kd_prog'					=> $r5,
+						'id_prog'					=> $r6,
+						'kd_keg'					=> $r7,
+						'kd_rek_1'					=> $r8,
+						'kd_rek_2'					=> $r9,
+						'kd_rek_3'					=> $r10,
+						'kd_rek_4'					=> $r11,
+						'kd_rek_5'					=> $r12,
+					)
+				);
+			}
+		}
+		
+		$header										= $this->_header();
+		
+		if($header)
+		{
+			$this->set_description
+			('
+				<div class="row text-sm border-bottom">
+					<label class="col-12 col-sm-2 text-muted text-uppercase mb-0">
+						sub unit
+					</label>
+					<label class="col-2 col-sm-1 mb-0">
+						' . $header['query']->kd_urusan . '.' . $header['query']->kd_bidang . '.' . $header['query']->kd_unit . '.' . $header['query']->kd_sub . '
+					</label>
+					<label class="col-10 col-sm-9 text-uppercase mb-0">
+						' . $header['query']->nm_sub_unit . '
+					</label>
+				</div>
+				<div class="row text-sm border-bottom">
+					<label class="col-12 col-sm-2 text-muted text-uppercase mb-0">
+						no spd
+					</label>
+					<label class="col-10 col-sm-9 text-uppercase mb-0">
+						' . $header['query']->no_spd . '
+					</label>
+				</div>
+				<div class="row text-sm border-bottom">
+					<label class="col-12 col-sm-2 text-muted text-uppercase mb-0">
+						no spp
+					</label>
+					<label class="col-2 col-sm-6 mb-0">
+						' . $header['query']->no_spp . '
+					</label>
+					<label class="col-2 col-sm-2 text-uppercase mb-0">
+						nilai spd
+					</label>
+					<label class="col-2 col-sm-2 text-uppercase mb-0">
+						<b class="text-danger">
+							Rp. ' . number_format(($header['query_total']->nilai), 2) . '
+						</b>
+					</label>
+				</div>
+				<div class="row text-sm">
+					<label class="col-12 col-sm-2 text-muted text-uppercase mb-0">
+						tanggal spp
+					</label>
+					<label class="col-2 col-sm-6 mb-0">
+						' . date("d F Y", strtotime($header['query']->tgl_spp)) . '
+					</label>
+					<label class="col-2 col-sm-2 text-uppercase mb-0">
+						sisa spd kegiatan ini
+					</label>
+					<label class="col-2 col-sm-2 text-uppercase mb-0">
+						<b class="text-danger">
+							Rp. ' . number_format(($header['query_total']->nilai), 2) . '
+						</b>
+					</label>
+				</div>
+			');
+		}
+
+		$this->set_breadcrumb
+		(
+			array
+			(
+				'bendahara/pengeluaran/spp'			=> 'Bendahara Pengeluaran',
+				'../sub_unit'						=> 'Sub_unit',
+				'../spp'							=> 'Spp'
+			)
+		);
+		
+		$this->set_title('Rinc SPP')
+		->set_icon('mdi mdi-check-box-outline')
+		->set_primary('tahun, no_spp, kd_urusan, kd_bidang, kd_unit, kd_sub, jns_tagihan')
+		->unset_action('export, print, pdf')
+		->unset_column('tahun, kd_urusan, kd_bidang, kd_unit, kd_sub, id_prog, kd_prog, kd_rek_1, kd_rek_2, kd_rek_3, no_spp, nilai, kd_sumber, no_id, nm_sumber')
+		->unset_field('tahun, kd_urusan, kd_bidang, kd_unit, kd_sub, id_prog, kd_prog, kd_keg, kd_rek_2, kd_rek_3, kd_rek_4, kd_rek_5, no_spp, nilai')
+		->unset_view('tahun, kd_urusan, kd_bidang, kd_unit, kd_sub, id_prog, kd_prog, kd_rek_1, kd_rek_2, kd_rek_3, no_spp, nilai, no_id')
+
+		->field_prepend
+		(
+			array
+			(
+				'usulan'							=> 'Rp'
+			)
+		)
+		->set_alias
+		(
+			array
+			(
+				'kd_rek_1'							=> 'Rekening',
+				'kd_rek_4'							=> 'Kode Rekening',
+				'kd_rek_5'							=> 'Uraian',
+				'usulan'							=> 'Nilai Usulan',
+				'no_id'								=> 'No. Urut',
+				'nm_sumber'							=> 'Sumber Dana',
+				'kd_sumber'							=> 'Sumber Dana'
+			)
+		)
+		->set_field
+		(
+			array
+			(
+				'no_id'								=> 'last_insert, readonly',
+				'usulan'							=> 'price_format'
+			)
+		)
+		
+		->merge_content('{kd_prog}.{kd_keg}', 'Kegiatan')
+		//->merge_content('{kd_keg}.{kd_prog}', 'Kegiatan')
+		->set_field('kd_rek_1', 'custom_format', 'callback_kode_rekening_kd_rek1')
+		->set_field('kd_rek_4', 'custom_format', 'callback_kode_rekening_kd_rek4')
+		->set_field('kd_rek_5', 'custom_format', 'callback_kode_rekening_kd_rek5')
+
+		->set_default
+		(
+			array
+			(
+				'tahun'								=> get_userdata('year'),
+				'no_spp'							=> service('request')->getGet('no_spp')
+			)
+		)
+		->set_validation
+		(
+			array
+			(
+				'nilai_usulan'						=> 'required|numeric',
+				'kd_sumber'							=> 'required|callback_validasi_kd_rek_1'
+			)
+		)
+		->set_relation
+		(
+			'kd_sumber',
+			'ref_sumber_dana.kd_sumber',
+			'{ref_sumber_dana.kd_sumber}. {ref_sumber_dana.nm_sumber}',
+			array
+			(
+				'kd_sumber'							=> 1
+			)
+		)
+		->where
+		(
+			array
+			(
+				'tahun'								=> get_userdata('year'),
+				'kd_urusan'							=> service('request')->getGet('kd_urusan'),
+				'kd_bidang'							=> service('request')->getGet('kd_bidang'),
+				'kd_unit'							=> service('request')->getGet('kd_unit'),
+				'kd_sub'							=> service('request')->getGet('kd_sub'),
+				'no_spp'							=> service('request')->getGet('no_spp')
+			)
+		)
+		->render($this->_table);
+	}
+	
+	public function validasi_kd_rek_1($value = 0)
+	{
+
+		if(service('request')->getPost('kegiatan') == 'all')
+		{
+			return 'Bidang Rekening dibutuhkan';
+		}
+
+		list($r1, $r2, $r3, $r4, $r5, $r6, $r7, $r8, $r9, $r10, $r11, $r12)	= array_pad(explode('.', service('request')->getPost('kegiatan')), 5, 0);
+
+		$query										= $this->model->select
+		('
+			no_spp,
+			ta_spp_rinc.kd_rek_1,
+			ta_spp_rinc.kd_rek_2,
+			ta_spp_rinc.kd_rek_3,
+			ta_spp_rinc.kd_rek_4,
+			ta_spp_rinc.kd_rek_5
+		')
+		->get_where
+		(
+			'ta_spp_rinc',
+			array
+			(
+				'kd_urusan'							=> $r1,
+				'kd_bidang'							=> $r2,
+				'kd_unit'							=> $r3,
+				'kd_sub'							=> $r4,
+				'kd_prog'							=> $r5,
+				'id_prog'							=> $r6,
+				'kd_keg'							=> $r7,
+				'kd_rek_1'							=> $r8,
+				'kd_rek_2'							=> $r9,
+				'kd_rek_3'							=> $r10,
+				'kd_rek_4'							=> $r11,
+				'kd_rek_5'							=> $r12,
+				'no_spp'							=> service('request')->getGet('no_spp'),
+			)
+		)
+		->row();
+		
+		if(isset($query))
+		{
+			return 'Nomor Rekening '. $query->kd_rek_1 . '.' . $query->kd_rek_2 . '.' . $query->kd_rek_3 . '.' . $query->kd_rek_4 . '.' . $query->kd_rek_5 . ' sudah terdaftar di No SPP '. $query->no_spp;
+		}
+		
+		return true;
+	}
+
+	public function kode_rekening_kd_rek1($params = array())
+	{
+		ini_set('memory_limit', '-1');
+		
+		$exists										= (isset($params['kd_urusan']['original']) ? $params['kd_urusan']['original'] : 0) . '.' . (isset($params['kd_bidang']['original']) ? $params['kd_bidang']['original'] : 0) . '.' . (isset($params['kd_unit']['original']) ? $params['kd_unit']['original'] : 0) . '.' . (isset($params['kd_sub']['original']) ? $params['kd_sub']['original'] : 0) . '.' . (isset($params['kd_prog']['original']) ? $params['kd_prog']['original'] : 0) . '.' . (isset($params['id_prog']['original']) ? $params['id_prog']['original'] : 0) . '.' . (isset($params['kd_rek_1']['original']) ? $params['kd_rek_1']['original'] : 0) . '.' . (isset($params['kd_rek_2']['original']) ? $params['kd_rek_2']['original'] : 0) . '.' . (isset($params['kd_rek_3']['original']) ? $params['kd_rek_3']['original'] : 0) . '.' . (isset($params['kd_rek_4']['original']) ? $params['kd_rek_4']['original'] : 0) . '.' . (isset($params['kd_rek_5']['original']) ? $params['kd_rek_5']['original'] : 0);
+		
+		$query										= $this->model->select
+		('
+			ta_kegiatan.kd_urusan,
+			ta_kegiatan.kd_bidang,
+			ta_kegiatan.kd_unit,
+			ta_kegiatan.kd_sub,
+			ta_kegiatan.kd_prog,
+			ta_kegiatan.id_prog,
+			ta_kegiatan.kd_keg,
+			ta_kegiatan.ket_kegiatan,
+			ref_rek_5.kd_rek_1,
+			ref_rek_5.kd_rek_2,
+			ref_rek_5.kd_rek_3,
+			ref_rek_5.kd_rek_4,
+			ref_rek_5.kd_rek_5,
+			ref_rek_5.nm_rek_5
+		')
+		->join
+		(
+			'ta_belanja',
+			'ta_belanja.kd_urusan = ta_kegiatan.kd_urusan AND ta_belanja.kd_bidang = ta_kegiatan.kd_bidang AND ta_belanja.kd_unit = ta_kegiatan.kd_unit AND ta_belanja.kd_sub = ta_kegiatan.kd_sub AND ta_belanja.kd_prog = ta_kegiatan.kd_prog AND ta_belanja.id_prog = ta_kegiatan.id_prog AND ta_belanja.kd_keg = ta_kegiatan.kd_keg'
+		)
+		->join
+		(
+			'ref_rek_5',
+			'ref_rek_5.kd_rek_1 = ta_belanja.kd_rek_1 AND ref_rek_5.kd_rek_2 = ta_belanja.kd_rek_2 AND ref_rek_5.kd_rek_3 = ta_belanja.kd_rek_3 AND ref_rek_5.kd_rek_4 = ta_belanja.kd_rek_4 AND ref_rek_5.kd_rek_5 = ta_belanja.kd_rek_5'
+		)
+		/*
+		->join
+		(
+			'ta_spp_rinc',
+			'ta_spp_rinc.kd_rek_1 = ta_belanja.kd_rek_1 and
+				ta_spp_rinc.kd_rek_2 = ta_belanja.kd_rek_2 and
+				ta_spp_rinc.kd_rek_3 = ta_belanja.kd_rek_3 and
+				ta_spp_rinc.kd_rek_4 = ta_belanja.kd_rek_4 and
+				ta_spp_rinc.kd_rek_5 = ta_belanja.kd_rek_5 and
+				ta_spp_rinc.kd_urusan = ta_belanja.kd_urusan and
+				ta_spp_rinc.kd_bidang = ta_belanja.kd_bidang and
+				ta_spp_rinc.kd_unit = ta_belanja.kd_unit and
+				ta_spp_rinc.kd_sub = ta_belanja.kd_sub and
+				ta_spp_rinc.kd_prog = ta_belanja.kd_prog and
+				ta_spp_rinc.kd_keg = ta_belanja.kd_keg'
+		)
+		*/
+		->get_where
+		(
+			'ta_kegiatan',
+			array
+			(
+				'ta_belanja.tahun'					=> get_userdata('year'),
+				'ta_belanja.kd_urusan'				=> service('request')->getGet('kd_urusan'),
+				'ta_belanja.kd_bidang'				=> service('request')->getGet('kd_bidang'),
+				'ta_belanja.kd_unit'				=> service('request')->getGet('kd_unit'),
+				'ta_belanja.kd_sub'					=> service('request')->getGet('kd_sub'),
+				'ta_belanja.kd_prog'				=> 2,
+				'ta_belanja.kd_keg'					=> 1
+			)
+		)
+		->result();
+		
+		$return										= null;
+		$option										.= '<option value="all">Silahkan Pilih</option>';
+		
+		foreach($query as $key => $val)
+		{
+			$option									.= '<option value="' . $val->kd_urusan . '.' . $val->kd_bidang . '.' . $val->kd_unit . '.' . $val->kd_sub . '.' . $val->kd_prog . '.' . $val->id_prog . '.' . $val->kd_keg . '.' .$val->kd_rek_1 . '.' . $val->kd_rek_2 . '.' . $val->kd_rek_3 . '.' . $val->kd_rek_4 . '.' . $val->kd_rek_5 . '"' . ($exists == $val->kd_urusan . '.' . $val->kd_bidang . '.' . $val->kd_unit . '.' . $val->kd_sub . '.' . $val->kd_prog . '.' . $val->id_prog . '.' . $val->kd_rek_1 . '.' . $val->kd_rek_2 . '.' . $val->kd_rek_3 . '.' . $val->kd_rek_4 . '.' . $val->kd_rek_5 ? ' selected' : null) . '>' . $val->kd_urusan . '.' . $val->kd_bidang . '.' . $val->kd_unit . '.' . $val->kd_sub . '.' . $val->kd_prog . '.' . $val->id_prog . '.' . $val->kd_keg . ' - ' . $val->ket_kegiatan . ' (' . $val->kd_rek_1 . '.' . $val->kd_rek_2 . '.' . $val->kd_rek_3 . '.' . $val->kd_rek_4 . '.' . $val->kd_rek_5 . '.' . $val->nm_rek_5 . ')</option>';
+		}
+		
+		return '<select name="kegiatan" class="form-control">' . $option . '</select>';
+	}
+	
+	public function kode_rekening_kd_rek4($params = array())
+	{
+		$exists										= (isset($params['kd_rek_1']['original']) ? $params['kd_rek_1']['original'] : 0) . '.' . (isset($params['kd_rek_2']['original']) ? $params['kd_rek_2']['original'] : 0) . '.' . (isset($params['kd_rek_3']['original']) ? $params['kd_rek_3']['original'] : 0) . '.' . (isset($params['kd_rek_4']['original']) ? $params['kd_rek_4']['original'] : 0) . '.' . (isset($params['kd_rek_5']['original']) ? $params['kd_rek_5']['original'] : 0);
+
+		$query										= $this->model->select
+		('
+			kd_rek_1,
+			kd_rek_2,
+			kd_rek_3,
+			kd_rek_4,
+			kd_rek_5,
+			nm_rek_5
+		')
+		->get_where
+		(
+			'ref_rek_5',
+			array
+			(
+				'ref_rek_5.kd_rek_1'				=> $params['kd_rek_1']['original'],
+				'ref_rek_5.kd_rek_2'				=> $params['kd_rek_2']['original'],
+				'ref_rek_5.kd_rek_3'				=> $params['kd_rek_3']['original'],
+				'ref_rek_5.kd_rek_4'				=> $params['kd_rek_4']['original'],
+				'ref_rek_5.kd_rek_5'				=> $params['kd_rek_5']['original']
+			)
+		)
+		->result();
+		
+		$rekening									= null;
+		
+		foreach($query as $key => $val)
+		{
+			$rekening								= $exists;
+		}
+		
+		return $rekening;
+	}
+	
+	public function kode_rekening_kd_rek5($params = array())
+	{
+		$query										= $this->model->select
+		('
+			kd_rek_1,
+			kd_rek_2,
+			kd_rek_3,
+			kd_rek_4,
+			kd_rek_5,
+			nm_rek_5
+		')
+		->get_where
+		(
+			'ref_rek_5',
+			array
+			(
+				'ref_rek_5.kd_rek_1'				=> $params['kd_rek_1']['original'],
+				'ref_rek_5.kd_rek_2'				=> $params['kd_rek_2']['original'],
+				'ref_rek_5.kd_rek_3'				=> $params['kd_rek_3']['original'],
+				'ref_rek_5.kd_rek_4'				=> $params['kd_rek_4']['original'],
+				'ref_rek_5.kd_rek_5'				=> $params['kd_rek_5']['original']
+			)
+		)
+		->result();
+		
+		$rekening									= null;
+		
+		foreach($query as $key => $val)
+		{
+			$rekening								= $val->nm_rek_5;
+		}
+		
+		return $rekening;
+	}
+	
+	private function _header()
+	{
+		$query										= $this->model->select
+		('
+			ta_spp.no_spp,
+			ta_spp.tgl_spp,
+			ta_spd_rinc.no_spd,
+			ta_spd_rinc.nilai,
+			ref_sub_unit.kd_urusan,
+			ref_sub_unit.kd_bidang,
+			ref_sub_unit.kd_unit,
+			ref_sub_unit.kd_sub,
+			ref_sub_unit.nm_sub_unit
+		')
+		->join
+		(
+			'ta_spd_rinc',
+			'ta_spd_rinc.kd_urusan = ta_spp.kd_urusan AND ta_spd_rinc.kd_bidang = ta_spp.kd_bidang AND ta_spd_rinc.kd_unit = ta_spp.kd_unit AND ta_spd_rinc.kd_sub = ta_spp.kd_sub'
+		)
+		->join
+		(
+			'ref_sub_unit',
+			'ref_sub_unit.kd_urusan = ta_spp.kd_urusan AND ref_sub_unit.kd_bidang = ta_spp.kd_bidang AND ref_sub_unit.kd_unit = ta_spp.kd_unit AND ref_sub_unit.kd_sub = ta_spp.kd_sub'
+		)
+		->get_where
+		(
+			'ta_spp',
+			array
+			(
+				'ta_spp.tahun'						=> get_userdata('year'),
+				'ta_spp.kd_urusan'					=> service('request')->getGet('kd_urusan'),
+				'ta_spp.kd_bidang'					=> service('request')->getGet('kd_bidang'),
+				'ta_spp.kd_unit'					=> service('request')->getGet('kd_unit'),
+				'ta_spp.kd_sub'						=> service('request')->getGet('kd_sub'),
+				'ta_spp.no_spp'						=> service('request')->getGet('no_spp')
+			)
+		)
+		->row();
+		
+		$query_total								= $this->model->select
+		('
+			SUM(nilai) AS nilai
+		')
+		->get_where
+		(
+			'ta_spd_rinc',
+			array
+			(
+				'ta_spd_rinc.kd_urusan'				=> service('request')->getGet('kd_urusan'),
+				'ta_spd_rinc.kd_bidang'				=> service('request')->getGet('kd_bidang'),
+				'ta_spd_rinc.kd_unit'				=> service('request')->getGet('kd_unit'),
+				'ta_spd_rinc.kd_sub'				=> service('request')->getGet('kd_sub'),
+				'ta_spd_rinc.no_spd'				=> service('request')->getGet('no_spd')
+			)
+		)
+		->row();
+		
+		$output										= array
+		(
+			'query'									=> $query,
+			'query_total'							=> $query_total
+		);
+		
+		return $output;
+	}
+}

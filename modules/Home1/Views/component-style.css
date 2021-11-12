@@ -1,0 +1,60 @@
+/* @Author : Geektech Engineer
+Second Page Aplikasi Bandek
+img : GEEKTECH
+https://geektech.co.id/
+https://geektech.id/ */
+
+.card-custom {
+  background-color: transparent; 
+  border: 0;
+}
+
+.custom-font
+{
+  color: #fff;
+}
+
+.custom-font-orange
+{
+  color: #9e5905;
+}
+
+.custom-button
+{
+  background-color: #fff;
+}
+.custom-button-white
+{
+  background-color: #fff;
+  border: 1px solid #000;   /* this is the same as the "normal" state border */
+  outline: 0;
+}
+
+.custom-button-orange
+{
+  background-color: #fff;
+  border: 3px solid #e99f13;   /* this is the same as the "normal" state border */
+  outline: 0;
+}
+
+.border-orange {
+  border: 2px solid #e99f13;
+  border-radius: 4px;
+}
+
+.button-lg-custom
+{
+  width: 200px
+}
+
+.feature-section-default
+{
+  right: 0;
+  bottom: 0;
+  min-width: 25px; 
+  min-height: 25px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: 50% 50%;
+  background-image: url("<?php echo get_image('home', 'Fitur_image_page_2_A.png'); ?>");
+}

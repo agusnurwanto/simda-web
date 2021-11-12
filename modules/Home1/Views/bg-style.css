@@ -1,0 +1,109 @@
+/* @Author : Geektech Engineer
+Second Page Aplikasi Bandek
+img : GEEKTECH
+https://geektech.co.id/
+https://geektech.id/ */
+
+.bg-size-header {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  min-width: 100%; 
+  min-height: 100%;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.bg-size-potrait-small {
+  height: 450px;
+  width: 75px;
+  right: 0;
+  bottom: 0;
+  min-width: 100%; 
+  min-height: 100%;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.bg-size-small {
+  height: 50px;
+  width: 50px;
+  right: 0;
+  bottom: 0;
+  min-width: 100%; 
+  min-height: 100%;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.bg-header {
+    background-image: url("<?php echo get_image('home', 'Back_3.png'); ?>"), 
+    url("<?php echo get_image('home', 'Back_2.png'); ?>"), 
+    url("<?php echo get_image('home', 'Back_1.png'); ?>"), 
+    url("<?php echo get_image('home', 'Back_0.png'); ?>");
+  }
+
+.about-section
+	{
+    background-image: url("<?php echo get_image('home', 'Back_2_PR.png'); ?>"), 
+    url("<?php echo get_image('home', 'Back_1_PR.png'); ?>"), 
+    url("<?php echo get_image('home', 'Back_0.png'); ?>");
+}
+
+.bg-line-feature {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: 1140px;
+  background-image: url("<?php echo get_image('home', 'Line_fitur.png'); ?>");
+}
+
+.contact-section {
+  background-image: url("<?php echo get_image('home', 'Back_1_TR.png'); ?>"), 
+  url("<?php echo get_image('home', 'Back_0.png'); ?>");
+}
+
+.bg-feature-card {
+  min-height: 500px;
+  height: 600px;
+  background-image: url("<?php echo get_image('home', 'Box_fitur.png'); ?>");
+}
+
+.bg-feature-one {
+    background-image: url("<?php echo get_image('home', 'Fitur_image_page_2_A.png'); ?>");
+}
+
+.bg-feature {
+    background-image: url("<?php echo get_image('home', 'Back_3.png'); ?>"), 
+    url("<?php echo get_image('home', 'Back_0.png'); ?>");
+ }
+
+.bg-size-feature {
+  height: 300px;
+  width: 290px;
+}
+
+ .bg-item-1 {
+  background-image: url("<?php echo get_image('home', 'Fitur_image_page_2_C.png'); ?>");
+}
+
+.bg-item-2 {
+  background-image: url("<?php echo get_image('home', 'Fitur_image_page_2_C.png'); ?>");
+}
+
+.bg-item-3 {
+  background-image: url("<?php echo get_image('home', 'Fitur_image_page_2_C.png'); ?>");
+}
+
+.bg-custopm-size {
+  right: 0;
+  bottom: 0;
+  min-width: 100%; 
+  min-height: 100%;
+  height: 781px;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
