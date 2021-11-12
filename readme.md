@@ -19,8 +19,13 @@ Pass : admin123
 ```
 chown -R www-data:www-data writable
 ```
+
+### Cara Koneksi ke Database SQL Server SIMDA
 - Instal terlebih dahulu sqlserver connect. Ini untuk windows: https://stackoverflow.com/questions/48259319/how-to-install-an-sqlsrv-extension-to-php-xampp 
 - Sesuaikan koneksi ke database simda keuangan dengan cara buka menu **Administratif - Konfigurasi - Connection**
+
+### Catatan Aplikasi
+- Fungsi login ada di **aksara/Modules/Auth/Controllers/Auth.php line 74**
 
 ### Demo Live Aplikasi
 - Kunjungi https://simda.ganjar.id/demo 
