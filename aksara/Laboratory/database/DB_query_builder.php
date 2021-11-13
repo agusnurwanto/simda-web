@@ -328,6 +328,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		return $this->_max_min_avg_sum($select, $alias, 'MAX');
 	}
 
+	// custom agus
+	public function selectMax($select = '', $alias = '')
+	{
+		return $this->_max_min_avg_sum($select, $alias, 'MAX');
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -340,6 +346,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @return	CI_DB_query_builder
 	 */
 	public function select_min($select = '', $alias = '')
+	{
+		return $this->_max_min_avg_sum($select, $alias, 'MIN');
+	}
+
+	// custom agus
+	public function selectMin($select = '', $alias = '')
 	{
 		return $this->_max_min_avg_sum($select, $alias, 'MIN');
 	}
@@ -360,6 +372,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		return $this->_max_min_avg_sum($select, $alias, 'AVG');
 	}
 
+	// custom agus
+	public function selectAvg($select = '', $alias = '')
+	{
+		return $this->_max_min_avg_sum($select, $alias, 'AVG');
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -372,6 +390,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @return	CI_DB_query_builder
 	 */
 	public function select_sum($select = '', $alias = '')
+	{
+		return $this->_max_min_avg_sum($select, $alias, 'SUM');
+	}
+
+	// custom agus
+	public function selectSum($select = '', $alias = '')
 	{
 		return $this->_max_min_avg_sum($select, $alias, 'SUM');
 	}
@@ -676,6 +700,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		return $this->_wh('qb_where', $key, $value, 'OR ', $escape);
 	}
 
+	// custom agus
+	public function orWhere($key, $value = NULL, $escape = NULL)
+	{
+		return $this->_wh('qb_where', $key, $value, 'OR ', $escape);
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -764,6 +794,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		return $this->_wh_in('qb_where', $key, $values, FALSE, 'AND ', $escape);
 	}
 
+	// custom agus
+	public function whereIn($key, array $values, $escape = NULL)
+	{
+		return $this->_wh_in('qb_where', $key, $values, FALSE, 'AND ', $escape);
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -778,6 +814,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @return	CI_DB_query_builder
 	 */
 	public function or_where_in($key, array $values, $escape = NULL)
+	{
+		return $this->_wh_in('qb_where', $key, $values, FALSE, 'OR ', $escape);
+	}
+
+	// custom agus
+	public function orWhereIn($key, array $values, $escape = NULL)
 	{
 		return $this->_wh_in('qb_where', $key, $values, FALSE, 'OR ', $escape);
 	}
@@ -800,6 +842,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		return $this->_wh_in('qb_where', $key, $values, TRUE, 'AND ', $escape);
 	}
 
+	// custom agus
+	public function whereNotIn($key, array $values, $escape = NULL)
+	{
+		return $this->_wh_in('qb_where', $key, $values, TRUE, 'AND ', $escape);
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -814,6 +862,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @return	CI_DB_query_builder
 	 */
 	public function or_where_not_in($key, array $values, $escape = NULL)
+	{
+		return $this->_wh_in('qb_where', $key, $values, TRUE, 'OR ', $escape);
+	}
+
+	// custom agus
+	public function orWhereNotIn($key, array $values, $escape = NULL)
 	{
 		return $this->_wh_in('qb_where', $key, $values, TRUE, 'OR ', $escape);
 	}
@@ -836,6 +890,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		return $this->_wh_in('qb_having', $key, $values, FALSE, 'AND ', $escape);
 	}
 
+	// custom agus
+	public function havingIn($key, array $values, $escape = NULL)
+	{
+		return $this->_wh_in('qb_having', $key, $values, FALSE, 'AND ', $escape);
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -850,6 +910,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @return	CI_DB_query_builder
 	 */
 	public function or_having_in($key, array $values, $escape = NULL)
+	{
+		return $this->_wh_in('qb_having', $key, $values, FALSE, 'OR ', $escape);
+	}
+
+	// custom agus
+	public function orHavingIn($key, array $values, $escape = NULL)
 	{
 		return $this->_wh_in('qb_having', $key, $values, FALSE, 'OR ', $escape);
 	}
@@ -872,6 +938,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		return $this->_wh_in('qb_having', $key, $values, TRUE, 'AND ', $escape);
 	}
 
+	// custom agus
+	public function havingNotIn($key, array $values, $escape = NULL)
+	{
+		return $this->_wh_in('qb_having', $key, $values, TRUE, 'AND ', $escape);
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -886,6 +958,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @return	CI_DB_query_builder
 	 */
 	public function or_having_not_in($key, array $values, $escape = NULL)
+	{
+		return $this->_wh_in('qb_having', $key, $values, TRUE, 'OR ', $escape);
+	}
+
+	// custom agus
+	public function orHavingNotIn($key, array $values, $escape = NULL)
 	{
 		return $this->_wh_in('qb_having', $key, $values, TRUE, 'OR ', $escape);
 	}
@@ -1001,6 +1079,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		return $this->_like($field, $match, 'AND ', $side, 'NOT', $escape);
 	}
 
+	// custom agus
+	public function notLike($field, $match = '', $side = 'both', $escape = NULL)
+	{
+		return $this->_like($field, $match, 'AND ', $side, 'NOT', $escape);
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -1035,6 +1119,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @return	CI_DB_query_builder
 	 */
 	public function or_not_like($field, $match = '', $side = 'both', $escape = NULL)
+	{
+		return $this->_like($field, $match, 'OR ', $side, 'NOT', $escape);
+	}
+
+	// custom agus
+	public function orNotLike($field, $match = '', $side = 'both', $escape = NULL)
 	{
 		return $this->_like($field, $match, 'OR ', $side, 'NOT', $escape);
 	}
@@ -1143,6 +1233,28 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		return $this;
 	}
 
+	// custom agus
+	public function groupStart($not = '', $type = 'AND ')
+	{
+		$type = $this->_group_get_type($type);
+
+		$this->qb_where_group_started = TRUE;
+		$prefix = (count($this->qb_where) === 0 && count($this->qb_cache_where) === 0) ? '' : $type;
+		$where = array(
+			'condition' => $prefix.$not.str_repeat(' ', ++$this->qb_where_group_count).' (',
+			'value' => NULL,
+			'escape' => FALSE
+		);
+
+		$this->qb_where[] = $where;
+		if ($this->qb_caching)
+		{
+			$this->qb_cache_where[] = $where;
+		}
+
+		return $this;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -1204,6 +1316,25 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		return $this;
 	}
 
+	// custom agus
+	public function groupEnd()
+	{
+		$this->qb_where_group_started = FALSE;
+		$where = array(
+			'condition' => str_repeat(' ', $this->qb_where_group_count--).')',
+			'value' => NULL,
+			'escape' => FALSE
+		);
+
+		$this->qb_where[] = $where;
+		if ($this->qb_caching)
+		{
+			$this->qb_cache_where[] = $where;
+		}
+
+		return $this;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -1238,6 +1369,38 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 * @return	CI_DB_query_builder
 	 */
 	public function group_by($by, $escape = NULL)
+	{
+		is_bool($escape) OR $escape = $this->_protect_identifiers;
+
+		if (is_string($by))
+		{
+			$by = ($escape === TRUE)
+				? explode(',', $by)
+				: array($by);
+		}
+
+		foreach ($by as $val)
+		{
+			$val = trim($val);
+
+			if ($val !== '')
+			{
+				$val = array('field' => $val, 'escape' => $escape);
+
+				$this->qb_groupby[] = $val;
+				if ($this->qb_caching === TRUE)
+				{
+					$this->qb_cache_groupby[] = $val;
+					$this->qb_cache_exists[] = 'groupby';
+				}
+			}
+		}
+
+		return $this;
+	}
+
+	// custom agus
+	public function groupBy($by, $escape = NULL)
 	{
 		is_bool($escape) OR $escape = $this->_protect_identifiers;
 

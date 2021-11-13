@@ -6815,11 +6815,19 @@ class Core extends Controller
 				
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->where($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->where($key, $val);
+					}else{
+						$this->model->where($this->_from . '.' . $key, $val);
+					}
 				}
 				elseif($this->model->field_exists(str_replace(' !=', '', $key), $this->_from) || $this->model->field_exists(str_replace(' <', '', $key), $this->_from) || $this->model->field_exists(str_replace(' >', '', $key), $this->_from) || $this->model->field_exists(str_replace(' >=', '', $key), $this->_from) || $this->model->field_exists(str_replace(' <=', '', $key), $this->_from))
 				{
-					$this->model->where($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->where($key, $val);
+					}else{
+						$this->model->where($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -6839,7 +6847,11 @@ class Core extends Controller
 						{
 							if($this->model->field_exists(str_replace(' !=', '', $key), $table) || $this->model->field_exists(str_replace(' <', '', $key), $table) || $this->model->field_exists(str_replace(' >', '', $key), $table) || $this->model->field_exists(str_replace(' >=', '', $key), $table) || $this->model->field_exists(str_replace(' <=', '', $key), $table))
 							{
-								$this->model->where($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->where($key, $val);
+								}else{
+									$this->model->where($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -6865,14 +6877,22 @@ class Core extends Controller
 				 */
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->or_where($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->or_where($key, $val);
+					}else{
+						$this->model->or_where($this->_from . '.' . $key, $val);
+					}
 				}
 				/**
 				 * Validate the select column to check if column is exist in table
 				 */
 				elseif($this->model->field_exists(str_replace(' !=', '', $key), $this->_from) || $this->model->field_exists(str_replace(' <', '', $key), $this->_from) || $this->model->field_exists(str_replace(' >', '', $key), $this->_from) || $this->model->field_exists(str_replace(' >=', '', $key), $this->_from) || $this->model->field_exists(str_replace(' <=', '', $key), $this->_from))
 				{
-					$this->model->or_where($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->or_where($key, $val);
+					}else{
+						$this->model->or_where($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -6897,7 +6917,11 @@ class Core extends Controller
 							 */
 							if($this->model->field_exists(str_replace(' !=', '', $key), $table) || $this->model->field_exists(str_replace(' <', '', $key), $table) || $this->model->field_exists(str_replace(' >', '', $key), $table) || $this->model->field_exists(str_replace(' >=', '', $key), $table) || $this->model->field_exists(str_replace(' <=', '', $key), $table))
 							{
-								$this->model->or_where($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->or_where($key, $val);
+								}else{
+									$this->model->or_where($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -6923,7 +6947,11 @@ class Core extends Controller
 				 */
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->where_in($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->where_in($key, $val);
+					}else{
+						$this->model->where_in($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -6944,7 +6972,11 @@ class Core extends Controller
 							 */
 							if($this->model->field_exists($key, $table))
 							{
-								$this->model->where_in($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->where_in($key, $val);
+								}else{
+									$this->model->where_in($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -6966,7 +6998,11 @@ class Core extends Controller
 				 */
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->or_where_in($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->or_where_in($key, $val);
+					}else{
+						$this->model->or_where_in($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -6987,7 +7023,11 @@ class Core extends Controller
 							 */
 							if($this->model->field_exists($key, $table))
 							{
-								$this->model->or_where_in($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->or_where_in($key, $val);
+								}else{
+									$this->model->or_where_in($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -7009,7 +7049,11 @@ class Core extends Controller
 				 */
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->where_not_in($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->where_not_in($key, $val);
+					}else{
+						$this->model->where_not_in($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -7031,7 +7075,11 @@ class Core extends Controller
 							 */
 							if($this->model->field_exists($key, $table))
 							{
-								$this->model->where_not_in($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->where_not_in($key, $val);
+								}else{
+									$this->model->where_not_in($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -7053,7 +7101,11 @@ class Core extends Controller
 				 */
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->or_where_not_in($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->or_where_not_in($key, $val);
+					}else{
+						$this->model->or_where_not_in($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -7075,7 +7127,11 @@ class Core extends Controller
 							 */
 							if($this->model->field_exists($key, $table))
 							{
-								$this->model->or_where_not_in($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->or_where_not_in($key, $val);
+								}else{
+									$this->model->or_where_not_in($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -7097,14 +7153,22 @@ class Core extends Controller
 				 */
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->like($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->like($key, $val);
+					}else{
+						$this->model->like($this->_from . '.' . $key, $val);
+					}
 				}
 				/**
 				 * Validate the select column to check if column is exist in table
 				 */
 				elseif($this->model->field_exists(str_replace(' !=', '', $key), $this->_from))
 				{
-					$this->model->like($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->like($key, $val);
+					}else{
+						$this->model->like($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -7126,7 +7190,11 @@ class Core extends Controller
 							 */
 							if($this->model->field_exists(str_replace(' !=', '', $key), $table))
 							{
-								$this->model->like($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->like($key, $val);
+								}else{
+									$this->model->like($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -7148,7 +7216,11 @@ class Core extends Controller
 				 */
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->or_like($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->or_like($key, $val);
+					}else{
+						$this->model->or_like($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -7170,7 +7242,11 @@ class Core extends Controller
 							 */
 							if($this->model->field_exists($key, $table))
 							{
-								$this->model->or_like($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->or_like($key, $val);
+								}else{
+									$this->model->or_like($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -7192,7 +7268,11 @@ class Core extends Controller
 				 */
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->not_like($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->not_like($key, $val);
+					}else{
+						$this->model->not_like($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -7205,7 +7285,11 @@ class Core extends Controller
 							 */
 							if($this->model->field_exists($key, $table))
 							{
-								$this->model->not_like($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->not_like($key, $val);
+								}else{
+									$this->model->not_like($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -7227,7 +7311,11 @@ class Core extends Controller
 				 */
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->or_not_like($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->or_not_like($key, $val);
+					}else{
+						$this->model->or_not_like($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -7240,7 +7328,11 @@ class Core extends Controller
 							 */
 							if($this->model->field_exists($key, $table))
 							{
-								$this->model->or_not_like($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->or_not_like($key, $val);
+								}else{
+									$this->model->or_not_like($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -7262,7 +7354,11 @@ class Core extends Controller
 				 */
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->having($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->having($key, $val);
+					}else{
+						$this->model->having($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -7284,7 +7380,11 @@ class Core extends Controller
 							 */
 							if($this->model->field_exists($key, $table))
 							{
-								$this->model->having($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->having($key, $val);
+								}else{
+									$this->model->having($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -7310,7 +7410,11 @@ class Core extends Controller
 				 */
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->or_having($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->or_having($key, $val);
+					}else{
+						$this->model->or_having($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -7332,7 +7436,11 @@ class Core extends Controller
 							 */
 							if($this->model->field_exists($key, $table))
 							{
-								$this->model->or_having($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->or_having($key, $val);
+								}else{
+									$this->model->or_having($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -7358,7 +7466,11 @@ class Core extends Controller
 				 */
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->having_in($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->having_in($key, $val);
+					}else{
+						$this->model->having_in($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -7380,7 +7492,11 @@ class Core extends Controller
 							 */
 							if($this->model->field_exists($key, $table))
 							{
-								$this->model->having_in($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->having_in($key, $val);
+								}else{
+									$this->model->having_in($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -7406,7 +7522,11 @@ class Core extends Controller
 				 */
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->or_having_in($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->or_having_in($key, $val);
+					}else{
+						$this->model->or_having_in($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -7428,7 +7548,11 @@ class Core extends Controller
 							 */
 							if($this->model->field_exists($key, $table))
 							{
-								$this->model->or_having_in($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->or_having_in($key, $val);
+								}else{
+									$this->model->or_having_in($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -7454,7 +7578,11 @@ class Core extends Controller
 				 */
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->having_not_in($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->having_not_in($key, $val);
+					}else{
+						$this->model->having_not_in($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -7476,7 +7604,11 @@ class Core extends Controller
 							 */
 							if($this->model->field_exists($key, $table))
 							{
-								$this->model->having_not_in($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->having_not_in($key, $val);
+								}else{
+									$this->model->having_not_in($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -7502,7 +7634,11 @@ class Core extends Controller
 				 */
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->or_having_not_in($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->or_having_not_in($key, $val);
+					}else{
+						$this->model->or_having_not_in($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -7524,7 +7660,11 @@ class Core extends Controller
 							 */
 							if($this->model->field_exists($key, $table))
 							{
-								$this->model->or_having_not_in($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->or_having_not_in($key, $val);
+								}else{
+									$this->model->or_having_not_in($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -7550,7 +7690,11 @@ class Core extends Controller
 				 */
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->having_like($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->having_like($key, $val);
+					}else{
+						$this->model->having_like($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -7572,7 +7716,11 @@ class Core extends Controller
 							 */
 							if($this->model->field_exists($key, $table))
 							{
-								$this->model->having_like($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->having_like($key, $val);
+								}else{
+									$this->model->having_like($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -7598,7 +7746,11 @@ class Core extends Controller
 				 */
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->or_having_like($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->or_having_like($key, $val);
+					}else{
+						$this->model->or_having_like($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -7620,7 +7772,11 @@ class Core extends Controller
 							 */
 							if($this->model->field_exists($key, $table))
 							{
-								$this->model->or_having_like($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->or_having_like($key, $val);
+								}else{
+									$this->model->or_having_like($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -7646,7 +7802,11 @@ class Core extends Controller
 				 */
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->not_having_like($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->not_having_like($key, $val);
+					}else{
+						$this->model->not_having_like($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -7668,7 +7828,11 @@ class Core extends Controller
 							 */
 							if($this->model->field_exists($key, $table))
 							{
-								$this->model->not_having_like($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->not_having_like($key, $val);
+								}else{
+									$this->model->not_having_like($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -7694,7 +7858,11 @@ class Core extends Controller
 				 */
 				if($this->model->field_exists($key, $this->_from))
 				{
-					$this->model->or_not_having_like($this->_from . '.' . $key, $val);
+					if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+						$this->model->or_not_having_like($key, $val);
+					}else{
+						$this->model->or_not_having_like($this->_from . '.' . $key, $val);
+					}
 				}
 				else
 				{
@@ -7716,7 +7884,11 @@ class Core extends Controller
 							 */
 							if($this->model->field_exists($key, $table))
 							{
-								$this->model->or_not_having_like($table . '.' . $key, $val);
+								if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+									$this->model->or_not_having_like($key, $val);
+								}else{
+									$this->model->or_not_having_like($table . '.' . $key, $val);
+								}
 							}
 						}
 					}
@@ -7795,8 +7967,11 @@ class Core extends Controller
 						
 						// fix table alias
 						$table						= (strpos($this->_from, ' ') !== false ? substr($this->_from, strripos($this->_from, ' ') + 1) : $this->_from);
-						
-						$this->model->order_by($table . '.' . $key, $val['direction'], $val['escape']);
+						if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+							$this->model->order_by($key, $val['direction'], $val['escape']);
+						}else{
+							$this->model->order_by($table . '.' . $key, $val['direction'], $val['escape']);
+						}
 					}
 					/**
 					 * Validate the column to check if column is exist in table
@@ -7829,7 +8004,11 @@ class Core extends Controller
 									// fix table alias
 									$table			= (strpos($table, ' ') !== false ? substr($table, strripos($table, ' ') + 1) : $table);
 									
-									$this->model->order_by($table . '.' . $key, $val['direction'], $val['escape']);
+									if(!empty($this->model->dbtype) && $this->model->dbtype == 'pdo'){
+										$this->model->order_by($key, $val['direction'], $val['escape']);
+									}else{
+										$this->model->order_by($table . '.' . $key, $val['direction'], $val['escape']);
+									}
 								}
 							}
 						}
