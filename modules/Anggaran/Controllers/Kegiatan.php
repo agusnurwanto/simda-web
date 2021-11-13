@@ -192,15 +192,15 @@ class Kegiatan extends \Aksara\Laboratory\Core
 		)
 		->select('ref_kegiatan_mapping.kd_program90, ref_kegiatan_mapping.kd_kegiatan90, ref_kegiatan_mapping.kd_sub_kegiatan')
 		->join('ref_kegiatan_mapping', 'ref_kegiatan_mapping.kd_urusan = ta_kegiatan.kd_urusan AND ref_kegiatan_mapping.kd_bidang = ta_kegiatan.kd_bidang AND ref_kegiatan_mapping.kd_prog = ta_kegiatan.kd_prog AND ref_kegiatan_mapping.kd_keg = ta_kegiatan.kd_keg')
-        ->order_by
-        (
-            array
-            (
-                'kd_program90'						=> 'ASC',
-                'kd_kegiatan90'						=> 'ASC',
-                'kd_sub_kegiatan'					=> 'ASC'
-            )
-        )
+        // ->order_by
+        // (
+        //     array
+        //     (
+        //         'kd_program90'						=> 'ASC',
+        //         'kd_kegiatan90'						=> 'ASC',
+        //         'kd_sub_kegiatan'					=> 'ASC'
+        //     )
+        // )
 		->render($this->_table);
 	}
 

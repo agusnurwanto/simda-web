@@ -2355,7 +2355,7 @@ class Core extends Controller
 			{
 				$this->_crud						= true;
 			}
-			
+
 			/* check if data is requested through autocomplete (jQuery plugin) */
 			if(service('request')->isAJAX() && 'autocomplete' == service('request')->getPost('method'))
 			{
