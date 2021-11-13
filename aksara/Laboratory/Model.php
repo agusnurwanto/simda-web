@@ -88,6 +88,18 @@ class Model
 				1
 			)
 			->getRow();
+
+			$port = service('encrypter')->decrypt(base64_decode($parameter->port));
+			if($port == '-')
+			{
+				$port = '';
+			}
+			
+			$password = service('encrypter')->decrypt(base64_decode($parameter->password));
+			if($password == '-')
+			{
+				$password = '';
+			}
 			
 			if($parameter)
 			{
@@ -95,10 +107,11 @@ class Model
 				(
 					'DBDriver'						=> $parameter->database_driver,
 					'hostname'						=> service('encrypter')->decrypt(base64_decode($parameter->hostname)),
-					'port'						    => service('encrypter')->decrypt(base64_decode($parameter->port)),
+					'port'						    => $port,
 					'username'						=> service('encrypter')->decrypt(base64_decode($parameter->username)),
-					'password'						=> service('encrypter')->decrypt(base64_decode($parameter->password)),
+					'password'						=> $password,
 					'database'						=> service('encrypter')->decrypt(base64_decode($parameter->database_name)),
+					'dsn'							=> service('encrypter')->decrypt(base64_decode($parameter->dsn)),
 					'DBDebug'						=> (ENVIRONMENT !== 'production')
 				);
 			}
@@ -124,15 +137,28 @@ class Model
 			$parameter['hostname']					= $parameter['hostname'] . ',' . $parameter['port'];
 		}
 		
-		// initialize parameter to new connection
-		$this->db									= \Config\Database::connect($parameter);
-		
-		// check if connection successfully made
-		if(!$this->db->connect())
-		{
-			// connection couldn't be made, throw error
-			return throw_exception(403, $this->db->error()['message']);
+		// Update by agus https://github.com/agusnurwanto 13-11-21
+		if($driver['DBDriver'] == 'pdo'){
+			$driver['dbdriver'] = $driver['DBDriver'];
+			define('BASEPATH', APPPATH.'Laboratory/');
+			include BASEPATH.'database/DB.php';
+			$this->db = DB($driver, TRUE);
+			$this->code = false;
+			$this->dbtype = $driver['dbdriver'];
+
+			// $data = $this->db->query('select * from ref_unit')->result_array();
+			// print_r($data);die();
+		}else{
+			// initialize parameter to new connection
+			$this->db								= \Config\Database::connect($parameter);
+			// check if connection successfully made
+			if(!$this->db->connect())
+			{
+				// connection couldn't be made, throw error
+				return throw_exception(403, $this->db->error()['message']);
+			}
 		}
+		
 		
 		return $this;
 	}
@@ -149,7 +175,19 @@ class Model
 	 */
 	public function list_tables()
 	{
-		return $this->db->listTables();
+		if(!empty($this->dbtype) && $this->dbtype == 'pdo'){
+			$sql = "SELECT TABLE_NAME 
+				FROM INFORMATION_SCHEMA.TABLES 
+				WHERE TABLE_TYPE = 'BASE TABLE'";
+			$tables = $this->db->query($sql)->getResult('array');
+			$ret = array();
+			foreach ($tables as $k => $v) {
+				$ret[] = $v['TABLE_NAME'];
+			}
+			return $ret;
+		}else{
+			return $this->db->listTables();
+		}
 	}
 	
 	/**
@@ -158,12 +196,16 @@ class Model
 	 */
 	public function table_exists($table = null)
 	{
-		if($table && $this->db->tableExists($table))
-		{
-			return true;
+		if(!empty($this->dbtype) && $this->dbtype == 'pdo'){
+			return in_array($table, $this->list_tables());
+		}else{
+			if($table && $this->db->tableExists($table))
+			{
+				return true;
+			}
+			
+			return false;
 		}
-		
-		return false;
 	}
 	
 	/**
@@ -180,9 +222,13 @@ class Model
 			$this->_table_alias[$destructure[1]]	= $table;
 		}
 		
-		if($table && $field && $this->db->fieldExists($field, $table))
-		{
+		if(!empty($this->dbtype) && $this->dbtype == 'pdo'){
 			return true;
+		}else{
+			if($table && $field && $this->db->fieldExists($field, $table))
+			{
+				return true;
+			}
 		}
 		
 		return false;
@@ -193,11 +239,28 @@ class Model
 	 */
 	public function list_fields($table = null)
 	{
-		if($table && $this->db->tableExists($table))
-		{
-			return $this->db->getFieldNames($table);
+		if(!empty($this->dbtype) && $this->dbtype == 'pdo'){
+			if($table && $this->table_exists($table))
+			{
+				$sql = "
+					SELECT COLUMN_NAME
+					from INFORMATION_SCHEMA.COLUMNS
+					where TABLE_NAME='$table'
+				";
+				$query = $this->db->query($sql)->getResult('array');
+				$ret = array();
+				foreach ($query as $k => $v) {
+					$ret[] = $v['COLUMN_NAME'];
+				}
+				return $ret;
+			}
+		}else{
+			if($table && $this->db->tableExists($table))
+			{
+				return $this->db->getFieldNames($table);
+			}
+			
 		}
-		
 		return false;
 	}
 	
@@ -206,9 +269,33 @@ class Model
 	 */
 	public function field_data($table = null)
 	{
-		if($table && $this->db->tableExists($table))
-		{
-			return $this->db->getFieldData($table);
+		if(!empty($this->dbtype) && $this->dbtype == 'pdo'){
+			if($table && $this->table_exists($table))
+			{
+				$sql = "
+					SELECT *
+					from INFORMATION_SCHEMA.COLUMNS
+					where TABLE_NAME='$table'
+				";
+				$query = $this->db->query($sql)->getResult();
+				$ret = (object) array();
+				foreach ($query as $k => $v) {
+					// $v->name = $v->COLUMN_NAME;
+					// $ret[] = $v;
+					$ret->{$k} = (object) array(
+						'name' => $v->COLUMN_NAME,
+						'max_length' => $v->CHARACTER_MAXIMUM_LENGTH,
+						'primary_key' => 0,
+						'type' => $v->DATA_TYPE
+					);
+				}
+				return $ret;
+			}
+		}else{
+			if($table && $this->db->tableExists($table))
+			{
+				return $this->db->getFieldData($table);
+			}
 		}
 		
 		return false;
@@ -1699,9 +1786,13 @@ class Model
 	 * Your contribution is needed to write complete hint about
 	 * this method
 	 */
-	public function result()
+	public function result($debug = false)
 	{
-		return $this->_run_query('getResult');
+		if($debug){
+			return $this->_run_query('getResult', 'object', $debug);
+		}else{
+			return $this->_run_query('getResult');
+		}
 	}
 	
 	/**
@@ -1816,7 +1907,7 @@ class Model
 	 * Your contribution is needed to write complete hint about
 	 * this method
 	 */
-	private function _run_query($result_type = null, $parameter = 'object')
+	private function _run_query($result_type = null, $parameter = 'object', $debug = false)
 	{
 		if($this->_query)
 		{
@@ -2096,8 +2187,12 @@ class Model
 		
 		if($this->_limit)
 		{
-			// run limit command
-			$builder->limit($this->_limit, $this->_offset);
+			if(!empty($this->dbtype) && $this->dbtype == 'pdo'){
+				// struktur sql limit pada sql server agak berbeda, jadi diskip dulu
+			}else{
+				// run limit command
+				$builder->limit($this->_limit, $this->_offset);
+			}
 		}
 		
 		if($this->_order_by)
@@ -2109,6 +2204,13 @@ class Model
 			}
 		}
 		
+		if($debug){
+			// untuk melihat query dan query akan direset
+			// $data = $builder->get_compiled_select();
+			// print_r($data);
+			// die();
+		}
+
 		if(in_array($result_type, array('countAll', 'countAllResults', 'delete')))
 		{
 			if(in_array($result_type, array('delete')))
@@ -2116,7 +2218,15 @@ class Model
 				$parameter							= '';
 			}
 			
-			$output									= $builder->$result_type($parameter);
+			if(!empty($this->dbtype) && $this->dbtype == 'pdo'){
+				if(in_array($result_type, array('countAll', 'countAllResults'))){
+					$output = $builder->get()->num_rows($parameter);
+				}else{
+					$output	= $builder->$result_type($parameter);
+				}
+			}else{
+				$output									= $builder->$result_type($parameter);
+			}
 		}
 		else
 		{

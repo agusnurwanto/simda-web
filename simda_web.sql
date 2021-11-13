@@ -74,6 +74,7 @@ CREATE TABLE `app__connections` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `database_name` varchar(255) NOT NULL,
+  `dsn` text NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
