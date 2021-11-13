@@ -53,7 +53,7 @@ class Spp extends \Aksara\Laboratory\Core
 		
 		$this->set_title('SPP')
 		->set_icon('mdi mdi-react')
-		->set_primary('tahun, no_spp, kd_urusan, kd_bidang, kd_unit, kd_sub')
+		->set_primary('ta_spp.tahun, ta_spp.no_spp, ta_spp.kd_urusan, ta_spp.kd_bidang, ta_spp.kd_unit, ta_spp.kd_sub')
 		->unset_action('export, print, pdf, create, update, delete')
 		->unset_column('tahun, kd_urusan, kd_bidang, kd_unit, kd_sub, kd_prog, id_prog, kd_keg, kd_rek_1, kd_rek_2, kd_rek_3, kd_rek_4, kd_rek_5, no_id, kd_sumber')
 		/*
@@ -186,11 +186,11 @@ class Spp extends \Aksara\Laboratory\Core
 		(
 			array
 			(
-				'tahun'								=> get_userdata('year'),
-				'kd_urusan'							=> service('request')->getGet('kd_urusan'),
-				'kd_bidang'							=> service('request')->getGet('kd_bidang'),
-				'kd_unit'							=> service('request')->getGet('kd_unit'),
-				'kd_sub'							=> service('request')->getGet('kd_sub'),
+				'ta_spp.tahun'						=> get_userdata('year'),
+				'ta_spp.kd_urusan'					=> service('request')->getGet('kd_urusan'),
+				'ta_spp.kd_bidang'					=> service('request')->getGet('kd_bidang'),
+				'ta_spp.kd_unit'					=> service('request')->getGet('kd_unit'),
+				'ta_spp.kd_sub'						=> service('request')->getGet('kd_sub'),
 				'ta_spp.jn_spp'						=> 1,
 			)
 		)
@@ -205,7 +205,7 @@ class Spp extends \Aksara\Laboratory\Core
 				WHERE
 					ta_spm.no_spp = ta_spp_rinc.no_spp
 			)
-		')
+		', '', false)
 		->render($this->_table);
 	}
 

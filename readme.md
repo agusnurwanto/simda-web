@@ -1,4 +1,6 @@
 # SIMDA WEB PHP Open Source
+- Aplikasi SIMDA berbasis WEB dengan bahasa pemrogramman PHP, framwork CI-Aksara dan database SQL Server
+- Grup telegram untuk koordinasi dan monitoring udpate aplikasi https://t.me/sipd_chrome_extension
 
 ### Cara Setup 
 - Clone atau download master zip repository ini
