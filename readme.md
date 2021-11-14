@@ -27,9 +27,10 @@ chown -R www-data:www-data writable
 ### Cara Koneksi ke Database SQL Server SIMDA
 - Sesuaikan koneksi ke database simda keuangan dengan cara buka menu **Administratif - Konfigurasi - Connection**
 - Untuk koneksi dengan PDO ODBC, perlu mengisi kolom DSN dengan nilai **odbc:nama_dsn_odbc**
+- Jika menggunakan server linux maka perlu menginstall **freetds** dengan driver **PDO ODBC**. Referensi: https://github.com/agusnurwanto/SIMDA-API-PHP/wiki/Install-driver-freetds-di-server-LINUX-dan-odbc-di-server-SIMDA-Windows-untuk-koneksi-SQL-Server-menggunakan-PHP
+- Untuk koneksi dengan PDO ODBC di server linux yang menggunakan freetds, perlu mengisi kolom DSN dengan nilai **odbc:nama_dsn_odbc;DRIVER=freetds**
 - Jika kolom port atau password sql server kosong maka perlu diisi dengan nilai **-**
 - Untuk koneksi dengan driver sqlserver, perlu disetting dulu. Referensi untuk windows: https://stackoverflow.com/questions/48259319/how-to-install-an-sqlsrv-extension-to-php-xampp
-- Jika menggunakan server linux maka perlu menginstall **freetds** dengan driver **PDO ODBC**. Referensi: https://github.com/agusnurwanto/SIMDA-API-PHP/wiki/Install-driver-freetds-di-server-LINUX-dan-odbc-di-server-SIMDA-Windows-untuk-koneksi-SQL-Server-menggunakan-PHP
 
 ### Catatan Aplikasi
 - Fungsi login ada di **aksara/Modules/Auth/Controllers/Auth.php line 74**

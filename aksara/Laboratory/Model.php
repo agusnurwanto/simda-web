@@ -2189,6 +2189,10 @@ class Model
 		{
 			if(!empty($this->dbtype) && $this->dbtype == 'pdo'){
 				// struktur sql limit pada sql server agak berbeda, jadi diskip dulu
+				// if(!in_array($result_type, array('countAllResults')))
+				// {
+				// 	$builder->limit($this->_limit, $this->_offset);
+				// }
 			}else{
 				// run limit command
 				$builder->limit($this->_limit, $this->_offset);
@@ -2219,8 +2223,10 @@ class Model
 			}
 			
 			if(!empty($this->dbtype) && $this->dbtype == 'pdo'){
-				if(in_array($result_type, array('countAll', 'countAllResults'))){
+				if(in_array($result_type, array('countAll'))){
 					$output = $builder->get()->num_rows($parameter);
+				}else if(in_array($result_type, array('countAllResults'))){
+					$output = $builder->count_all_results();
 				}else{
 					$output	= $builder->$result_type($parameter);
 				}
