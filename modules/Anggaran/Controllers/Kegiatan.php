@@ -81,7 +81,7 @@ class Kegiatan extends \Aksara\Laboratory\Core
 		);
 		$this->set_title('Kegiatan')
 		->set_icon('mdi mdi-check-box-outline')
-		->set_primary('tahun, kd_urusan, kd_bidang, kd_unit, kd_sub')
+		->set_primary('ta_kegiatan.tahun, ta_kegiatan.kd_urusan, ta_kegiatan.kd_bidang, ta_kegiatan.kd_unit, ta_kegiatan.kd_sub')
 		->unset_action('export, print, pdf')
 		->unset_column('tahun,  kd_urusan, kd_bidang, kd_unit, kd_sub, kd_prog, id_prog, kd_keg, lokasi, kelompok_sasaran, status_kegiatan, waktu_pelaksanaan, kd_sumber')
 		->unset_field('tahun, kd_bidang, kd_unit, kd_sub, kd_urusan, id_prog, kd_prog, ket_kegiatan')
@@ -182,12 +182,12 @@ class Kegiatan extends \Aksara\Laboratory\Core
 		(
 			array
 			(
-				'tahun'								=> get_userdata('year'),
-				'kd_urusan'							=> service('request')->getGet('kd_urusan'),
-				'kd_bidang'							=> service('request')->getGet('kd_bidang'),
-				'kd_unit'							=> service('request')->getGet('kd_unit'),
-				'kd_sub'							=> service('request')->getGet('kd_sub'),
-				'kd_prog > '						=> 0
+				'ta_kegiatan.tahun'								=> get_userdata('year'),
+				'ta_kegiatan.kd_urusan'							=> service('request')->getGet('kd_urusan'),
+				'ta_kegiatan.kd_bidang'							=> service('request')->getGet('kd_bidang'),
+				'ta_kegiatan.kd_unit'							=> service('request')->getGet('kd_unit'),
+				'ta_kegiatan.kd_sub'							=> service('request')->getGet('kd_sub'),
+				'ta_kegiatan.kd_prog > '						=> 0
 			)
 		)
 		->select('ref_kegiatan_mapping.kd_program90, ref_kegiatan_mapping.kd_kegiatan90, ref_kegiatan_mapping.kd_sub_kegiatan')

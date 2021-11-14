@@ -16,15 +16,20 @@ DB_DATABASE
 ```
 User : admin 
 Pass : admin123 
+
 ```
+- Jika tidak bisa login bisa lakukan bypass dengan menambahkan kode **or 1==1** pada file **aksara/Modules/Auth/Controllers/Auth.php line 128**. Setelah berhasil login lakukan update password user admin dan hapus kode yang tadi sudah ditambahkan. Coba logout dan login kembali.
 - Rubah kepemilikan folder **writable** menjadi user webserver. Misalkan menggunakan apache2 dengan user www-data maka jalankan perintah ini:
 ```
 chown -R www-data:www-data writable
 ```
 
 ### Cara Koneksi ke Database SQL Server SIMDA
-- Instal terlebih dahulu sqlserver connect. Ini untuk windows: https://stackoverflow.com/questions/48259319/how-to-install-an-sqlsrv-extension-to-php-xampp 
 - Sesuaikan koneksi ke database simda keuangan dengan cara buka menu **Administratif - Konfigurasi - Connection**
+- Untuk koneksi dengan PDO ODBC, perlu mengisi kolom DSN dengan nilai **odbc:nama_dsn_odbc**
+- Jika kolom port atau password sql server kosong maka perlu diisi dengan nilai **-**
+- Untuk koneksi dengan driver sqlserver, perlu disetting dulu. Referensi untuk windows: https://stackoverflow.com/questions/48259319/how-to-install-an-sqlsrv-extension-to-php-xampp
+- Jika menggunakan server linux maka perlu menginstall **freetds** dengan driver **PDO ODBC**. Referensi: https://github.com/agusnurwanto/SIMDA-API-PHP/wiki/Install-driver-freetds-di-server-LINUX-dan-odbc-di-server-SIMDA-Windows-untuk-koneksi-SQL-Server-menggunakan-PHP
 
 ### Catatan Aplikasi
 - Fungsi login ada di **aksara/Modules/Auth/Controllers/Auth.php line 74**
