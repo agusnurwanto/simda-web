@@ -1573,18 +1573,18 @@ class Rka extends \Aksara\Laboratory\Model
 				ta_kegiatan.kd_sub = ta_program.kd_sub AND
 				ta_kegiatan.kd_unit = ta_program.kd_unit AND
 				ta_kegiatan.kd_urusan = ta_program.kd_urusan
-			INNER JOIN ta_capaian_program ON 
-				ta_program.id_prog = ta_capaian_program.id_prog AND
-				ta_program.kd_bidang = ta_capaian_program.kd_bidang AND
-				ta_program.kd_prog = ta_capaian_program.kd_prog AND
-				ta_program.kd_sub = ta_capaian_program.kd_sub AND
-				ta_program.kd_unit = ta_capaian_program.kd_unit AND
-				ta_program.kd_urusan = ta_capaian_program.kd_urusan
+			LEFT JOIN ta_capaian_program ON 
+				ta_program.id_prog = ta_kegiatan.id_prog AND
+				ta_program.kd_bidang = ta_kegiatan.kd_bidang AND
+				ta_program.kd_prog = ta_kegiatan.kd_prog AND
+				ta_program.kd_sub = ta_kegiatan.kd_sub AND
+				ta_program.kd_unit = ta_kegiatan.kd_unit AND
+				ta_program.kd_urusan = ta_kegiatan.kd_urusan
 			INNER JOIN ref_sub_unit ON 
-				ta_capaian_program.kd_urusan = ref_sub_unit.kd_urusan AND
-				ta_capaian_program.kd_bidang = ref_sub_unit.kd_bidang AND
-				ta_capaian_program.kd_unit = ref_sub_unit.kd_unit AND
-				ta_capaian_program.kd_sub = ref_sub_unit.kd_sub
+				ta_kegiatan.kd_urusan = ref_sub_unit.kd_urusan AND
+				ta_kegiatan.kd_bidang = ref_sub_unit.kd_bidang AND
+				ta_kegiatan.kd_unit = ref_sub_unit.kd_unit AND
+				ta_kegiatan.kd_sub = ref_sub_unit.kd_sub
 			INNER JOIN ref_unit ON 
 				ref_sub_unit.kd_bidang = ref_unit.kd_bidang AND
 				ref_sub_unit.kd_unit = ref_unit.kd_unit AND
@@ -1673,6 +1673,7 @@ class Rka extends \Aksara\Laboratory\Model
 				AND ta_kegiatan.kd_keg = ' . $params['kd_keg'] . '
 		')
 			->row();
+			// ->row(false, 1);
 		$indikator_kegiatan_query					= $this->query
 		('
 			SELECT

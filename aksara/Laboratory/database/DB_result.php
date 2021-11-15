@@ -182,6 +182,12 @@ class CI_DB_result {
 		return $this->custom_result_object($type);
 	}
 
+	// custom agus
+	public function getResultArray()
+	{
+		return $this->result_array();
+	}
+
 	// --------------------------------------------------------------------
 
 	/**

@@ -1,5 +1,6 @@
 <?php
 	$title = null;
+	// print_r($results);
 	//foreach($results['header'] as $result);
 	$title		= ucwords(strtolower($results['header']->nm_unit)) . ' - ' . $results['header']->kegiatan;
 ?>

@@ -140,8 +140,10 @@ class Model
 		// Update by agus https://github.com/agusnurwanto 13-11-21
 		if($driver['DBDriver'] == 'pdo'){
 			$driver['dbdriver'] = $driver['DBDriver'];
-			define('BASEPATH', APPPATH.'Laboratory/');
-			include BASEPATH.'database/DB.php';
+			if (!defined('BASEPATH')){
+				define('BASEPATH', APPPATH.'Laboratory/');
+				include BASEPATH.'database/DB.php';
+			}
 			$this->db = DB($driver, TRUE);
 			$this->code = false;
 			$this->dbtype = $driver['dbdriver'];
@@ -1810,9 +1812,13 @@ class Model
 	 * Your contribution is needed to write complete hint about
 	 * this method
 	 */
-	public function row($field = 1)
+	public function row($field = 1, $debug = false)
 	{
-		return $this->_run_query('getRow', $field);
+		if($debug){
+			return $this->_run_query('getRow', $field, $debug);
+		}else{
+			return $this->_run_query('getRow', $field);
+		}
 	}
 	
 	/**
@@ -1911,8 +1917,19 @@ class Model
 	{
 		if($this->_query)
 		{
-			$output									= $this->db->query($this->_query, $this->_query_params)->$result_type($parameter);
+			if(!empty($this->dbtype) && $this->dbtype == 'pdo'){
+				$output	= $this->db->query($this->_query, $this->_query_params)->$result_type($parameter);
+			}else{
+				$output	= $this->db->query($this->_query, $this->_query_params)->$result_type($parameter);
+			}
 			
+			if($debug){
+				print_r($this->db->error());
+				print_r($this->_query);
+				print_r($this->_query_params);
+				print_r($output); die('debug=1');
+			}
+
 			$this->_reset_property();
 			
 			return $output;
@@ -2210,9 +2227,9 @@ class Model
 		
 		if($debug){
 			// untuk melihat query dan query akan direset
-			// $data = $builder->get_compiled_select();
-			// print_r($data);
-			// die();
+			$data = $builder->get_compiled_select();
+			print_r($data);
+			die('debug=2');
 		}
 
 		if(in_array($result_type, array('countAll', 'countAllResults', 'delete')))
