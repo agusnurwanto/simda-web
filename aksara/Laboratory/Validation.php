@@ -208,7 +208,7 @@ class Validation extends \CodeIgniter\Validation\Rules
 	 */
 	public function valid_year($value = null)
 	{
-		$valid_year									= range(1970, date('Y'));
+		$valid_year									= range(1970, date('Y')+10);
 		
 		if(!in_array($value, $valid_year))
 		{
