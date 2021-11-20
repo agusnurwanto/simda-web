@@ -131,7 +131,7 @@ class Rinci extends \Aksara\Laboratory\Core
 		
 		$this->set_title('Rinc SPP Tambah Uang Persediaan')
 		->set_icon('mdi mdi-sack')
-		->set_primary('tahun, no_spp, kd_urusan, kd_bidang, kd_unit, kd_sub, jns_tagihan')
+		->set_primary('ta_spp_rinc.tahun, ta_spp_rinc.no_spp, ta_spp_rinc.kd_urusan, ta_spp_rinc.kd_bidang, ta_spp_rinc.kd_unit, ta_spp_rinc.kd_sub, ta_spp.jns_tagihan')
 		->unset_action('export, print, pdf, create, delete')
 		->unset_column('tahun, kd_urusan, kd_bidang, kd_unit, kd_sub, id_prog, kd_rek_1, kd_rek_2, kd_rek_3, no_spp, kd_sumber, no_id, nm_sumber')
 		->unset_field('tahun, kd_urusan, kd_bidang, kd_unit, kd_sub, id_prog, kd_prog, kd_rek_1, kd_rek_2, kd_rek_3, kd_rek_4, kd_rek_5, no_spp, kd_sumber')
@@ -201,17 +201,27 @@ class Rinci extends \Aksara\Laboratory\Core
 				'kd_sumber'							=> 3
 			)
 		)
+		->set_relation
+		(
+			'no_spp',
+			'ta_spp.no_spp',
+			'{ta_spp.no_spp}',
+			array
+			(
+				'ta_spp.no_spp'							=> 'ta_spp_rinc.no_spp'
+			)
+		)
 		->where
 		(
 			array
 			(
-				'tahun'								=> get_userdata('year'),
-				'kd_urusan'							=> service('request')->getGet('kd_urusan'),
-				'kd_bidang'							=> service('request')->getGet('kd_bidang'),
-				'kd_unit'							=> service('request')->getGet('kd_unit'),
-				'kd_sub'							=> service('request')->getGet('kd_sub'),
-				'no_spp'							=> service('request')->getGet('no_spp'),
-				'jn_spp'							=> service('request')->getGet('jn_spp')
+				'ta_spp_rinc.tahun'								=> get_userdata('year'),
+				'ta_spp_rinc.kd_urusan'							=> service('request')->getGet('kd_urusan'),
+				'ta_spp_rinc.kd_bidang'							=> service('request')->getGet('kd_bidang'),
+				'ta_spp_rinc.kd_unit'							=> service('request')->getGet('kd_unit'),
+				'ta_spp_rinc.kd_sub'							=> service('request')->getGet('kd_sub'),
+				'ta_spp_rinc.no_spp'							=> service('request')->getGet('no_spp'),
+				'ta_spp.jn_spp'							=> service('request')->getGet('jn_spp')
 			)
 		)
 		->render($this->_table);

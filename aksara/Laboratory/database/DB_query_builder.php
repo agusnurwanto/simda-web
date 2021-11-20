@@ -1104,6 +1104,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		return $this->_like($field, $match, 'OR ', $side, '', $escape);
 	}
 
+	// custom agus
+	public function orLike($field, $match = '', $side = 'both', $escape = NULL)
+	{
+		return $this->_like($field, $match, 'OR ', $side, '', $escape);
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -1711,7 +1717,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		// debug by agus
 		if(empty($result)){
-			echo $this->_compile_select().' | ';
+			echo '"'.$this->_compile_select().'" | ';
 		}
 		
 		$this->_reset_select();
